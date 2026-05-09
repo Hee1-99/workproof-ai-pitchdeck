@@ -26,7 +26,8 @@
       --white: #fffaf1;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: #000; }
+    body { margin: 0; background: var(--paper); }
+    deck-stage { --deck-bg: var(--paper); }
     section {
       width: 1920px;
       height: 1080px;
@@ -63,14 +64,14 @@
       line-break: strict;
     }
     p { margin-bottom: 0; }
-    h1 { font-size: 152px; line-height: .92; letter-spacing: -.085em; font-weight: 900; max-width: 1320px; }
-    h2 { font-size: 116px; line-height: .96; letter-spacing: -.075em; font-weight: 900; max-width: 1380px; }
-    h3 { font-size: 42px; line-height: 1.08; letter-spacing: -.045em; font-weight: 850; }
+    h1 { font-size: 124px; line-height: .98; letter-spacing: -.065em; font-weight: 820; max-width: 1320px; }
+    h2 { font-size: 84px; line-height: 1.08; letter-spacing: -.055em; font-weight: 780; max-width: 1380px; }
+    h3 { font-size: 38px; line-height: 1.14; letter-spacing: -.035em; font-weight: 760; }
     p, li { font-size: 34px; line-height: 1.38; letter-spacing: -.025em; color: var(--muted); }
     .dark p, .dark li, .red p, .red li { color: rgba(244,239,229,.76); }
     strong { color: var(--ink); }
     .dark strong, .red strong { color: var(--paper); }
-    .lead { font-size: 46px; line-height: 1.28; max-width: 1060px; margin-top: 42px; color: #39342e; }
+    .lead { font-size: 38px; line-height: 1.34; max-width: 1060px; margin-top: 38px; color: #39342e; }
     .dark .lead, .red .lead { color: rgba(244,239,229,.84); }
     .page-no { position: absolute; right: 112px; top: 92px; font-size: 26px; font-weight: 800; color: rgba(23,21,19,.34); z-index: 2; }
     .dark .page-no, .red .page-no { color: rgba(244,239,229,.38); }
@@ -85,9 +86,9 @@
     .cards.two { grid-template-columns: repeat(2, 1fr); }
     .card { background: rgba(255,250,241,.72); border: 2px solid var(--line); padding: 34px; min-height: 260px; box-shadow: 14px 14px 0 rgba(23,21,19,.08); }
     .dark .card { background: rgba(244,239,229,.08); border-color: rgba(244,239,229,.24); box-shadow: 14px 14px 0 rgba(0,0,0,.22); }
-    .metric { font-size: 102px; line-height: .92; letter-spacing: -.075em; font-weight: 950; color: var(--red); margin-bottom: 22px; }
+    .metric { font-size: 82px; line-height: .96; letter-spacing: -.055em; font-weight: 820; color: var(--red); margin-bottom: 22px; }
     .dark .metric { color: #ff725f; }
-    .quote { font-size: 74px; line-height: 1.05; letter-spacing: -.065em; font-weight: 900; max-width: 1360px; color: var(--ink); }
+    .quote { font-size: 58px; line-height: 1.14; letter-spacing: -.045em; font-weight: 760; max-width: 1360px; color: var(--ink); }
     .dark .quote, .red .quote { color: var(--paper); }
     .source { position: absolute; left: 112px; bottom: 70px; width: 1120px; font-size: 23px; line-height: 1.35; color: rgba(23,21,19,.48); z-index: 2; }
     .dark .source, .red .source { color: rgba(244,239,229,.52); }
@@ -109,7 +110,7 @@
     .matrix > div { padding: 38px; min-height: 350px; border-right: 2px solid var(--ink); }
     .matrix > div:last-child { border-right: 0; background: var(--ink); color: var(--paper); }
     .matrix > div:last-child p { color: rgba(244,239,229,.76); }
-    .ask { font-size: 92px; line-height: 1.02; letter-spacing: -.07em; font-weight: 950; max-width: 1320px; position: relative; z-index: 1; }
+    .ask { font-size: 70px; line-height: 1.12; letter-spacing: -.05em; font-weight: 780; max-width: 1320px; position: relative; z-index: 1; }
     a { color: inherit; }
     @media print { body { background: white; } section { page-break-after: always; } }
   </style>

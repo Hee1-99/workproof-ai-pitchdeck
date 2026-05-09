@@ -68,7 +68,7 @@
             display: block;
             position: fixed;
             inset: 0;
-            background: #000;
+            background: var(--deck-bg, #f4efe5);
             overflow: hidden;
           }
           :host([noscale]) { position: static; background: transparent; }
@@ -94,9 +94,9 @@
             right: 16px;
             z-index: 100;
             font: 500 14px/1 ui-monospace, 'SFMono-Regular', Menlo, monospace;
-            color: rgba(255,255,255,0.7);
+            color: rgba(23,21,19,0.62);
             padding: 6px 10px;
-            background: rgba(0,0,0,0.4);
+            background: rgba(244,239,229,0.84);
             border-radius: 999px;
             pointer-events: none;
             user-select: none;
@@ -110,8 +110,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: rgba(23,21,19,0.10);
+            color: #171513;
             border: none;
             border-radius: 999px;
             cursor: pointer;
@@ -119,7 +119,7 @@
             z-index: 100;
             user-select: none;
           }
-          .nav:hover { background: rgba(255,255,255,0.2); }
+          .nav:hover { background: rgba(23,21,19,0.18); }
           .nav.prev { left: 16px; }
           .nav.next { right: 16px; }
           @media print {
