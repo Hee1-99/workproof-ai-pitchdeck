@@ -68,7 +68,7 @@
             display: block;
             position: fixed;
             inset: 0;
-            background: var(--deck-bg, #f4efe5);
+            background: #f4efe5;
             overflow: hidden;
           }
           :host([noscale]) { position: static; background: transparent; }
