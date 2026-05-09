@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WorkProof Pitch Deck</title>
-  <script defer src="deck_stage.js?v=5"></script>
   <style>
     /*
       Design system: Korean industrial-editorial pitch deck.
@@ -26,17 +25,18 @@
       --white: #fffaf1;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); }
-    deck-stage { --deck-bg: var(--paper); }
+    body { margin: 0; background: var(--paper); overflow: hidden; }
+    .deck { position: fixed; inset: 0; width: 100vw; height: 100vh; background: var(--paper); }
     section {
-      width: 1920px;
-      height: 1080px;
+      width: 100vw;
+      height: 100vh;
       background: var(--paper);
       color: var(--ink);
       font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 88px 112px;
+      padding: clamp(44px, 7vh, 88px) clamp(48px, 7vw, 112px);
       position: relative;
       overflow: hidden;
+      display: none;
     }
     section::before {
       content: "";
@@ -73,11 +73,11 @@
     .dark strong, .red strong { color: var(--paper); }
     .lead { font-size: 38px; line-height: 1.34; max-width: 1060px; margin-top: 38px; color: #39342e; }
     .dark .lead, .red .lead { color: rgba(244,239,229,.84); }
-    .page-no { position: absolute; right: 112px; top: 92px; font-size: 26px; font-weight: 800; color: rgba(23,21,19,.34); z-index: 2; }
+    .page-no { position: absolute; right: clamp(48px, 7vw, 112px); top: clamp(46px, 7vh, 92px); font-size: 26px; font-weight: 800; color: rgba(23,21,19,.34); z-index: 2; }
     .dark .page-no, .red .page-no { color: rgba(244,239,229,.38); }
     .rule { width: 220px; height: 8px; background: var(--red); margin: 54px 0 0; position: relative; z-index: 1; }
     .dark .rule, .red .rule { background: var(--paper); }
-    .stamp { position: absolute; right: 112px; bottom: 92px; border: 5px solid currentColor; padding: 18px 24px; transform: rotate(-3deg); font-size: 30px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; z-index: 2; }
+    .stamp { position: absolute; right: clamp(48px, 7vw, 112px); bottom: clamp(46px, 7vh, 92px); border: 5px solid currentColor; padding: 18px 24px; transform: rotate(-3deg); font-size: 30px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; z-index: 2; }
     .tape { position: absolute; height: 78px; background: repeating-linear-gradient(135deg, var(--ink) 0 24px, var(--red2) 24px 48px); opacity: .95; z-index: 0; }
     .tape.one { width: 760px; right: -120px; top: 130px; transform: rotate(22deg); }
     .tape.two { width: 920px; left: -160px; bottom: 122px; transform: rotate(-9deg); opacity: .18; }
@@ -90,7 +90,7 @@
     .dark .metric { color: #ff725f; }
     .quote { font-size: 58px; line-height: 1.14; letter-spacing: -.045em; font-weight: 760; max-width: 1360px; color: var(--ink); }
     .dark .quote, .red .quote { color: var(--paper); }
-    .source { position: absolute; left: 112px; bottom: 70px; width: 1120px; font-size: 23px; line-height: 1.35; color: rgba(23,21,19,.48); z-index: 2; }
+    .source { position: absolute; left: clamp(48px, 7vw, 112px); bottom: clamp(34px, 6vh, 70px); width: 1120px; font-size: 23px; line-height: 1.35; color: rgba(23,21,19,.48); z-index: 2; }
     .dark .source, .red .source { color: rgba(244,239,229,.52); }
     .list { display: grid; gap: 22px; margin-top: 48px; position: relative; z-index: 1; }
     .list div { display: grid; grid-template-columns: 74px 1fr; gap: 22px; align-items: start; font-size: 38px; line-height: 1.25; letter-spacing: -.04em; }
@@ -112,11 +112,47 @@
     .matrix > div:last-child p { color: rgba(244,239,229,.76); }
     .ask { font-size: 70px; line-height: 1.12; letter-spacing: -.05em; font-weight: 780; max-width: 1320px; position: relative; z-index: 1; }
     a { color: inherit; }
-    @media print { body { background: white; } section { page-break-after: always; } }
+    section.active { display: block; }
+    .nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(23,21,19,.10);
+      color: var(--ink);
+      font-size: 32px;
+      cursor: pointer;
+    }
+    .nav:hover { background: rgba(23,21,19,.18); }
+    .nav.prev { left: 18px; }
+    .nav.next { right: 18px; }
+    .counter {
+      position: fixed;
+      right: 24px;
+      bottom: 18px;
+      z-index: 50;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(244,239,229,.82);
+      color: rgba(23,21,19,.62);
+      font: 700 14px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    @media (max-width: 900px) {
+      h1 { font-size: clamp(58px, 15vw, 112px); }
+      h2 { font-size: clamp(44px, 10vw, 80px); }
+      .cards, .cards.two, .workflow, .matrix, .split { grid-template-columns: 1fr; }
+      .phone { display: none; }
+      .workstep, .card, .matrix > div { min-height: auto; }
+    }
+    @media print { body { background: white; overflow: visible; } .deck { position: static; height: auto; } section { display: block !important; position: relative; page-break-after: always; } .nav, .counter { display: none; } }
   </style>
 </head>
 <body>
-  <deck-stage width="1920" height="1080" storage-key="workproof-deck-v3">
+  <main class="deck">
     <section data-screen-label="01 Title">
       <div class="page-no">01</div>
       <div class="tape one"></div>
@@ -273,6 +309,29 @@
         <div><span class="dot">D</span><span>조선비즈, “외국인 근로자 잇단 사고… 의사소통 안돼 안전 교육 부실”</span></div>
       </div>
     </section>
-  </deck-stage>
+  </main>
+  <button class="nav prev" aria-label="Previous slide">‹</button>
+  <button class="nav next" aria-label="Next slide">›</button>
+  <div class="counter" id="counter"></div>
+  <script>
+    const slides = [...document.querySelectorAll('.deck > section')];
+    const key = 'workproof-deck-fluid-current';
+    let current = Math.min(parseInt(localStorage.getItem(key) || '0', 10) || 0, slides.length - 1);
+    function show(n) {
+      current = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      document.getElementById('counter').textContent = `${current + 1} / ${slides.length}`;
+      localStorage.setItem(key, String(current));
+    }
+    document.querySelector('.nav.prev').onclick = () => show(current - 1);
+    document.querySelector('.nav.next').onclick = () => show(current + 1);
+    document.addEventListener('keydown', e => {
+      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); show(current + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(current - 1); }
+      if (e.key === 'Home') { e.preventDefault(); show(0); }
+      if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+    });
+    show(current);
+  </script>
 </body>
 </html>
