@@ -1,6 +1,10 @@
-# WorkProof AI Pitch Deck
+# WorkProof Pitch Deck
 
-Investor-facing HTML slide deck for **WorkProof AI**, a Korean-first multilingual SOP onboarding and safety-training proof platform for foreign workers in manufacturing and frontline operations.
+Investor-facing HTML slide deck for **WorkProof**, a Korean-first safety onboarding tool for foreign workers in manufacturing and frontline operations.
+
+Positioning:
+
+> 교육은 했는데, 작업자는 못 알아들었다. WorkProof turns site-specific SOPs into multilingual training cards and proof-of-understanding logs.
 
 ## Open locally
 
