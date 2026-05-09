@@ -53,7 +53,16 @@
     .red { background: var(--red); color: var(--paper); }
     .kicker { font-size: 24px; line-height: 1; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; color: var(--red); margin-bottom: 42px; position: relative; z-index: 1; }
     .dark .kicker, .red .kicker { color: var(--paper); opacity: .82; }
-    h1, h2, h3, p { margin: 0; position: relative; z-index: 1; text-wrap: pretty; }
+    h1, h2, h3, p, li, .ask, .quote, .lead, .card, .workstep, .phone-row {
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      line-break: strict;
+    }
+    p { margin-bottom: 0; }
     h1 { font-size: 152px; line-height: .92; letter-spacing: -.085em; font-weight: 900; max-width: 1320px; }
     h2 { font-size: 116px; line-height: .96; letter-spacing: -.075em; font-weight: 900; max-width: 1380px; }
     h3 { font-size: 42px; line-height: 1.08; letter-spacing: -.045em; font-weight: 850; }
