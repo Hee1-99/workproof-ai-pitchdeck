@@ -6,6 +6,10 @@ Positioning:
 
 > 교육은 했는데, 작업자는 못 알아들었다. WorkProof turns site-specific SOPs into multilingual training cards and proof-of-understanding logs.
 
+## View
+
+Live deck: https://hee1-99.github.io/workproof-ai-pitchdeck/
+
 ## Open locally
 
 ```bash
@@ -18,6 +22,7 @@ python3 -m http.server 8000
 - Next: `→`, `Space`, `PageDown`
 - Previous: `←`, `PageUp`
 - First/last: `Home`, `End`
+- Print to PDF: browser print dialog
 
 ## Sources used
 

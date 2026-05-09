@@ -3,355 +3,266 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WorkProof — Pitch Deck</title>
+  <title>WorkProof Pitch Deck</title>
+  <script src="deck_stage.js"></script>
   <style>
+    /*
+      Design system: Korean industrial-editorial pitch deck.
+      1920×1080 fixed slides via deck_stage.js. Warm paper base, black ink,
+      hazard red accent, large typographic pages, sparse evidence cards.
+      No gradient SaaS tropes, no fake dashboards; intentionally reads like
+      a founder-built investor deck with sharp copy and handmade layout rhythm.
+    */
     :root {
-      --bg: #f7f3eb;
-      --ink: #151515;
-      --muted: #69645d;
-      --line: #d9d1c3;
-      --paper: #fffaf2;
-      --paper-2: #eee5d5;
-      --red: #c2412d;
-      --green: #1f7a55;
-      --blue: #2f5f98;
-      --yellow: #d99a25;
+      --paper: #f4efe5;
+      --paper2: #e8dfcf;
+      --ink: #171513;
+      --muted: #6c655c;
+      --line: #cfc3b2;
+      --red: #b63727;
+      --red2: #e04a32;
+      --green: #2f6f4e;
+      --blue: #285f8f;
+      --white: #fffaf1;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
+    body { margin: 0; background: #000; }
+    section {
+      width: 1920px;
+      height: 1080px;
+      background: var(--paper);
       color: var(--ink);
-      font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 88px 112px;
+      position: relative;
       overflow: hidden;
     }
-    .deck { width: 100vw; height: 100vh; position: relative; }
-    .slide {
-      display: none;
+    section::before {
+      content: "";
       position: absolute;
       inset: 0;
-      width: 100vw;
-      height: 100vh;
-      padding: 6.5vh 7vw;
-      background:
-        linear-gradient(90deg, rgba(21,21,21,.035) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(21,21,21,.028) 1px, transparent 1px),
-        var(--bg);
-      background-size: 48px 48px;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(23,21,19,.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(23,21,19,.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mix-blend-mode: multiply;
     }
-    .slide.active { display: flex; flex-direction: column; justify-content: center; }
-    .kicker {
-      font-size: 14px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--red);
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      font-size: clamp(3.6rem, 8.5vw, 8.4rem);
-      line-height: .9;
-      letter-spacing: -.08em;
-      max-width: 1120px;
-      margin-bottom: 28px;
-    }
-    h2 {
-      font-size: clamp(2.6rem, 5.9vw, 5.7rem);
-      line-height: .96;
-      letter-spacing: -.07em;
-      max-width: 1120px;
-      margin-bottom: 30px;
-    }
-    h3 {
-      font-size: clamp(1.25rem, 2vw, 2rem);
-      letter-spacing: -.04em;
-      margin-bottom: 10px;
-    }
-    p, li {
-      font-size: clamp(1.05rem, 1.55vw, 1.42rem);
-      line-height: 1.45;
-      color: var(--muted);
-    }
+    .dark { background: var(--ink); color: var(--paper); }
+    .dark::before { background-image: linear-gradient(to right, rgba(244,239,229,.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(244,239,229,.04) 1px, transparent 1px); }
+    .red { background: var(--red); color: var(--paper); }
+    .kicker { font-size: 24px; line-height: 1; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; color: var(--red); margin-bottom: 42px; position: relative; z-index: 1; }
+    .dark .kicker, .red .kicker { color: var(--paper); opacity: .82; }
+    h1, h2, h3, p { margin: 0; position: relative; z-index: 1; text-wrap: pretty; }
+    h1 { font-size: 152px; line-height: .92; letter-spacing: -.085em; font-weight: 900; max-width: 1320px; }
+    h2 { font-size: 116px; line-height: .96; letter-spacing: -.075em; font-weight: 900; max-width: 1380px; }
+    h3 { font-size: 42px; line-height: 1.08; letter-spacing: -.045em; font-weight: 850; }
+    p, li { font-size: 34px; line-height: 1.38; letter-spacing: -.025em; color: var(--muted); }
+    .dark p, .dark li, .red p, .red li { color: rgba(244,239,229,.76); }
     strong { color: var(--ink); }
-    .lead {
-      max-width: 900px;
-      font-size: clamp(1.35rem, 2.3vw, 2.15rem);
-      line-height: 1.35;
-      color: #35312c;
-    }
-    .small { font-size: 1rem; color: var(--muted); }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 20px; }
-    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .card {
-      background: rgba(255,250,242,.82);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 18px 48px rgba(46, 35, 20, .08);
-    }
-    .note {
-      border-left: 6px solid var(--red);
-      padding: 20px 24px;
-      background: rgba(255,250,242,.86);
-      max-width: 980px;
-      border-radius: 0 18px 18px 0;
-    }
-    .quote {
-      color: var(--ink);
-      font-size: clamp(1.7rem, 3.2vw, 3.15rem);
-      line-height: 1.12;
-      letter-spacing: -.055em;
-    }
-    .stat {
-      font-size: clamp(3rem, 7vw, 7rem);
-      line-height: .9;
-      letter-spacing: -.08em;
-      font-weight: 900;
-      color: var(--red);
-      margin-bottom: 12px;
-    }
-    .pill {
-      display: inline-block;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 9px 13px;
-      margin: 4px 6px 4px 0;
-      color: #3d3730;
-      background: rgba(255,250,242,.7);
-      font-size: .98rem;
-    }
-    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
-    .step {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 24px;
-      min-height: 190px;
-    }
-    .num { font-size: .9rem; font-weight: 900; color: var(--red); margin-bottom: 18px; }
-    .two-col { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: center; }
-    .mock {
-      background: #111;
-      color: white;
-      border-radius: 30px;
-      padding: 22px;
-      max-width: 390px;
-      margin-left: auto;
-      box-shadow: 0 30px 80px rgba(0,0,0,.24);
-    }
-    .mock .screen { background: #fbfaf7; color: #151515; border-radius: 22px; padding: 22px; }
-    .mock .row { border-bottom: 1px solid #e3dccf; padding: 13px 0; }
-    .mock .ok { color: var(--green); font-weight: 800; }
-    .source { margin-top: 18px; font-size: .92rem; color: #837a6d; }
-    a { color: var(--blue); }
-    .footer { position: fixed; left: 7vw; right: 7vw; bottom: 3vh; display: flex; justify-content: space-between; color: #948b7d; z-index: 5; font-size: .92rem; }
-    .progress { position: fixed; left: 0; bottom: 0; height: 4px; background: var(--red); width: 0; z-index: 10; transition: width .18s ease; }
-    .controls { position: fixed; top: 24px; right: 28px; color: #948b7d; font-size: .9rem; z-index: 10; }
-    .red { color: var(--red); } .green { color: var(--green); } .blue { color: var(--blue); }
-    @media (max-width: 900px) {
-      body { overflow: auto; }
-      .deck, .slide { height: auto; min-height: 100vh; }
-      .slide { position: relative; padding: 72px 24px; }
-      .grid, .grid.three, .flow, .two-col { grid-template-columns: 1fr; }
-      .mock { margin-left: 0; }
-      .footer, .controls, .progress { display: none; }
-    }
+    .dark strong, .red strong { color: var(--paper); }
+    .lead { font-size: 46px; line-height: 1.28; max-width: 1060px; margin-top: 42px; color: #39342e; }
+    .dark .lead, .red .lead { color: rgba(244,239,229,.84); }
+    .page-no { position: absolute; right: 112px; top: 92px; font-size: 26px; font-weight: 800; color: rgba(23,21,19,.34); z-index: 2; }
+    .dark .page-no, .red .page-no { color: rgba(244,239,229,.38); }
+    .rule { width: 220px; height: 8px; background: var(--red); margin: 54px 0 0; position: relative; z-index: 1; }
+    .dark .rule, .red .rule { background: var(--paper); }
+    .stamp { position: absolute; right: 112px; bottom: 92px; border: 5px solid currentColor; padding: 18px 24px; transform: rotate(-3deg); font-size: 30px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; z-index: 2; }
+    .tape { position: absolute; height: 78px; background: repeating-linear-gradient(135deg, var(--ink) 0 24px, var(--red2) 24px 48px); opacity: .95; z-index: 0; }
+    .tape.one { width: 760px; right: -120px; top: 130px; transform: rotate(22deg); }
+    .tape.two { width: 920px; left: -160px; bottom: 122px; transform: rotate(-9deg); opacity: .18; }
+    .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 86px; align-items: center; height: 100%; position: relative; z-index: 1; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; position: relative; z-index: 1; margin-top: 62px; }
+    .cards.two { grid-template-columns: repeat(2, 1fr); }
+    .card { background: rgba(255,250,241,.72); border: 2px solid var(--line); padding: 34px; min-height: 260px; box-shadow: 14px 14px 0 rgba(23,21,19,.08); }
+    .dark .card { background: rgba(244,239,229,.08); border-color: rgba(244,239,229,.24); box-shadow: 14px 14px 0 rgba(0,0,0,.22); }
+    .metric { font-size: 102px; line-height: .92; letter-spacing: -.075em; font-weight: 950; color: var(--red); margin-bottom: 22px; }
+    .dark .metric { color: #ff725f; }
+    .quote { font-size: 74px; line-height: 1.05; letter-spacing: -.065em; font-weight: 900; max-width: 1360px; color: var(--ink); }
+    .dark .quote, .red .quote { color: var(--paper); }
+    .source { position: absolute; left: 112px; bottom: 70px; width: 1120px; font-size: 23px; line-height: 1.35; color: rgba(23,21,19,.48); z-index: 2; }
+    .dark .source, .red .source { color: rgba(244,239,229,.52); }
+    .list { display: grid; gap: 22px; margin-top: 48px; position: relative; z-index: 1; }
+    .list div { display: grid; grid-template-columns: 74px 1fr; gap: 22px; align-items: start; font-size: 38px; line-height: 1.25; letter-spacing: -.04em; }
+    .dot { width: 48px; height: 48px; border-radius: 50%; background: var(--red); color: var(--paper); display: grid; place-items: center; font-size: 24px; font-weight: 900; margin-top: 2px; }
+    .dark .dot { background: var(--paper); color: var(--ink); }
+    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); border: 2px solid var(--ink); margin-top: 72px; position: relative; z-index: 1; }
+    .workstep { min-height: 360px; padding: 34px; border-right: 2px solid var(--ink); background: rgba(255,250,241,.48); }
+    .workstep:last-child { border-right: 0; }
+    .workstep .n { font-size: 30px; font-weight: 950; color: var(--red); margin-bottom: 56px; }
+    .workstep p { font-size: 30px; }
+    .phone { width: 440px; height: 760px; border: 18px solid var(--ink); border-radius: 58px; background: var(--white); padding: 42px 34px; transform: rotate(2deg); box-shadow: 28px 28px 0 rgba(23,21,19,.13); margin-left: auto; position: relative; z-index: 1; }
+    .phone h3 { font-size: 38px; margin-bottom: 28px; }
+    .phone-row { border-top: 2px solid #ddd1bf; padding: 24px 0; font-size: 28px; line-height: 1.25; }
+    .pass { color: var(--green); font-weight: 900; }
+    .xmark { color: var(--red); font-weight: 900; }
+    .matrix { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--ink); position: relative; z-index: 1; margin-top: 62px; }
+    .matrix > div { padding: 38px; min-height: 350px; border-right: 2px solid var(--ink); }
+    .matrix > div:last-child { border-right: 0; background: var(--ink); color: var(--paper); }
+    .matrix > div:last-child p { color: rgba(244,239,229,.76); }
+    .ask { font-size: 92px; line-height: 1.02; letter-spacing: -.07em; font-weight: 950; max-width: 1320px; position: relative; z-index: 1; }
+    a { color: inherit; }
+    @media print { body { background: white; } section { page-break-after: always; } }
   </style>
 </head>
 <body>
-  <main class="deck">
-    <section class="slide active">
+  <deck-stage width="1920" height="1080" storage-key="workproof-deck-v3">
+    <section data-screen-label="01 Title">
+      <div class="page-no">01</div>
+      <div class="tape one"></div>
       <div class="kicker">WorkProof</div>
-      <h1>교육은 했는데,<br/>작업자는 못 알아들었다.</h1>
+      <h1>교육은 했는데,<br>작업자는 못 알아들었다.</h1>
       <p class="lead">외국인 근로자에게 현장 작업지시를 모국어로 교육하고, 이해했다는 기록까지 남기는 안전 온보딩 도구.</p>
-      <div>
-        <span class="pill">한국 중소 제조업 먼저</span>
-        <span class="pill">사업장별 SOP</span>
-        <span class="pill">다국어 교육 + 이해도 증빙</span>
+      <div class="rule"></div>
+      <div class="stamp">Korea first</div>
+    </section>
+
+    <section data-screen-label="02 Problem" class="dark">
+      <div class="page-no">02</div>
+      <div class="kicker">Problem</div>
+      <h2>현장의 위험은 “몰라서”보다 “알아들은 줄 알아서” 생깁니다.</h2>
+      <div class="list">
+        <div><span class="dot">1</span><span>작업자는 한국어 지시와 표지판을 완전히 이해하지 못합니다.</span></div>
+        <div><span class="dot">2</span><span>관리자는 교육을 했지만, 이해 여부를 확인할 방법이 없습니다.</span></div>
+        <div><span class="dot">3</span><span>사고가 난 뒤에는 “정말 가르쳤나?”가 아니라 “정말 이해했나?”가 문제가 됩니다.</span></div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="kicker">The Pain</div>
-      <h2>현장에서는 “대충 알아들은 척”이 사고로 이어집니다.</h2>
-      <div class="note">
-        <p class="quote">신규 외국인 근로자는 작업 순서보다 먼저 한국어 지시, 표지판, 안전수칙을 해석해야 합니다.</p>
-        <p>사업주는 교육을 했다고 생각하지만, 실제로는 작업자가 위험 행동과 금지 행동을 이해했는지 확인하기 어렵습니다.</p>
+    <section data-screen-label="03 Evidence">
+      <div class="page-no">03</div>
+      <div class="kicker">Market signal</div>
+      <h2>이건 상상한 문제가 아닙니다.</h2>
+      <div class="cards">
+        <div class="card"><div class="metric">78.1%</div><h3>외국인 산재는 현장에 집중</h3><p>2023년 외국인 업무상 사고 산재 승인 중 건설·광제조업 비중.</p></div>
+        <div class="card"><div class="metric">16개</div><h3>정부도 언어 문제를 봄</h3><p>안전보건공단은 산재 다발 작업 자료를 16개국 언어로 번역·배포.</p></div>
+        <div class="card"><div class="metric">1,500+</div><h3>자료는 이미 많음</h3><p>공개된 외국인 안전보건 자료는 많지만, 사업장별 교육 기록은 별개입니다.</p></div>
       </div>
+      <div class="source">Sources: 이민정책연구원/연합뉴스, 고용노동부·안전보건공단 보도자료, KBS 보도</div>
     </section>
 
-    <section class="slide">
-      <div class="kicker">Why Now</div>
-      <h2>외국인 근로자는 이미 한국 산업현장의 기본 인프라입니다.</h2>
-      <div class="grid three">
-        <div class="card"><div class="stat">100만+</div><p>국내 외국인 취업자는 100만 명 규모로 언급됩니다.</p></div>
-        <div class="card"><div class="stat">78.1%</div><p>2023년 외국인 업무상 사고 산재 승인 중 건설·광제조업 비중.</p></div>
-        <div class="card"><div class="stat">16개</div><p>정부는 안전자료를 16개국 언어로 번역·배포하고 있습니다.</p></div>
-      </div>
-      <div class="source">Sources: 이민정책연구원/연합뉴스, 고용노동부·안전보건공단 보도자료</div>
-    </section>
-
-    <section class="slide">
-      <div class="kicker">What Changed</div>
-      <h2>정부도 자료를 만들었습니다. 그런데 공장은 여전히 비어 있습니다.</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>공공자료가 해결하는 것</h3>
-          <ul>
-            <li>추락, 끼임, 질식 같은 공통 위험 안내</li>
-            <li>여러 언어로 된 포스터와 동영상</li>
-            <li>기본 안전수칙 전달</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>아직 남은 빈칸</h3>
-          <ul>
-            <li>우리 공장의 실제 설비·공정·SOP</li>
-            <li>근로자별 교육 완료와 이해도 기록</li>
-            <li>사고/감사 때 보여줄 수 있는 증빙</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide">
-      <div class="kicker">Wedge</div>
-      <h2>우리는 번역기가 아닙니다. “이해했다”는 증거를 팝니다.</h2>
-      <p class="lead">DeepL이나 ChatGPT가 문장을 번역할 수는 있습니다. 하지만 공장장은 <strong>누가, 언제, 어떤 작업을, 어떤 언어로 배웠고, 통과했는지</strong>가 필요합니다.</p>
-      <div>
-        <span class="pill">교육 로그</span>
-        <span class="pill">퀴즈</span>
-        <span class="pill">전자서명</span>
-        <span class="pill">재교육 알림</span>
-        <span class="pill">작업별 위험 카드</span>
-      </div>
-    </section>
-
-    <section class="slide">
-      <div class="kicker">Product</div>
-      <div class="two-col">
+    <section data-screen-label="04 Gap">
+      <div class="page-no">04</div>
+      <div class="kicker">Gap</div>
+      <h2>공공자료는 “공통 안전수칙”입니다. 사고는 “우리 공장 작업”에서 납니다.</h2>
+      <div class="matrix">
         <div>
-          <h2>PDF 작업지시서를 작업자용 교육 카드로 바꿉니다.</h2>
-          <p class="lead">관리자는 SOP를 올리고, 작업자는 QR로 접속해 모국어로 보고, 마지막에 짧은 확인 문제를 풉니다.</p>
+          <h3>지금 있는 것</h3>
+          <p>포스터, 영상, 번역 PDF, 통역 가능한 직원, 종이 서명부.</p>
         </div>
-        <div class="mock">
-          <div class="screen">
-            <p class="small">작업: 프레스 설비 청소</p>
-            <h3>Before you start</h3>
-            <div class="row">1. 전원 차단 확인</div>
-            <div class="row">2. 잠금 태그 부착</div>
-            <div class="row">3. 장갑·보안경 착용</div>
-            <div class="row ok">Quiz passed · Signed</div>
-          </div>
+        <div>
+          <h3>비어 있는 것</h3>
+          <p>우리 설비의 SOP를 누가 어떤 언어로 배웠고, 실제로 이해했는지 남기는 기록.</p>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section data-screen-label="05 Wedge" class="red">
+      <div class="page-no">05</div>
+      <div class="kicker">Wedge</div>
+      <p class="quote">번역기는 문장을 바꿉니다.<br>WorkProof는 교육 리스크를 줄입니다.</p>
+      <p class="lead">우리가 파는 것은 “외국어 SOP”가 아니라 사고·감사·원청 대응 때 보여줄 수 있는 <strong>이해도 증빙</strong>입니다.</p>
+    </section>
+
+    <section data-screen-label="06 Product">
+      <div class="page-no">06</div>
+      <div class="split">
+        <div>
+          <div class="kicker">Product</div>
+          <h2>PDF 작업지시서가 QR 교육 카드가 됩니다.</h2>
+          <p class="lead">관리자는 SOP를 올리고, 작업자는 휴대폰으로 모국어 교육을 받고, 마지막에 짧은 확인 문제와 서명을 남깁니다.</p>
+        </div>
+        <div class="phone">
+          <p style="font-size:24px;color:#6c655c;margin-bottom:20px;">작업: 프레스 설비 청소</p>
+          <h3>시작 전 확인</h3>
+          <div class="phone-row">1. 전원을 끄고 잠금 태그를 부착합니다.</div>
+          <div class="phone-row">2. 장갑과 보안경을 착용합니다.</div>
+          <div class="phone-row">3. 손을 넣기 전 담당자 확인을 받습니다.</div>
+          <div class="phone-row pass">이해도 확인 통과 · 서명 완료</div>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="07 Workflow">
+      <div class="page-no">07</div>
       <div class="kicker">Workflow</div>
-      <h2>첫 버전은 네 단계면 충분합니다.</h2>
-      <div class="flow">
-        <div class="step"><div class="num">01</div><h3>업로드</h3><p>관리자가 SOP, 안전수칙, 작업표준서를 올립니다.</p></div>
-        <div class="step"><div class="num">02</div><h3>정리</h3><p>AI가 단계, 위험요소, 보호구, 금지행동을 뽑습니다.</p></div>
-        <div class="step"><div class="num">03</div><h3>교육</h3><p>작업자는 베트남어·네팔어·캄보디아어 등으로 봅니다.</p></div>
-        <div class="step"><div class="num">04</div><h3>증빙</h3><p>퀴즈, 서명, 완료시간, 언어를 근로자별로 저장합니다.</p></div>
+      <h2>첫 제품은 네 단계면 충분합니다.</h2>
+      <div class="workflow">
+        <div class="workstep"><div class="n">01</div><h3>업로드</h3><p>SOP, 안전수칙, 작업표준서</p></div>
+        <div class="workstep"><div class="n">02</div><h3>분해</h3><p>단계, 위험요소, 보호구, 금지행동</p></div>
+        <div class="workstep"><div class="n">03</div><h3>교육</h3><p>베트남어·네팔어·캄보디아어 등</p></div>
+        <div class="workstep"><div class="n">04</div><h3>증빙</h3><p>퀴즈, 서명, 시간, 언어, 재교육</p></div>
       </div>
     </section>
 
-    <section class="slide">
+    <section data-screen-label="08 Beachhead" class="dark">
+      <div class="page-no">08</div>
       <div class="kicker">Beachhead</div>
-      <h2>처음부터 “제조업 전체”를 팔지 않습니다.</h2>
-      <div class="grid three">
-        <div class="card"><h3>1차 타깃</h3><p>경기·인천·충남의 외국인 근로자 고용 중소 제조업</p></div>
+      <h2>“제조업 전체”가 아니라, 외국인 신규 투입이 잦은 작은 현장부터.</h2>
+      <div class="cards">
+        <div class="card"><h3>초기 지역</h3><p>경기·인천·충남 중소 제조업 벨트</p></div>
         <div class="card"><h3>구매자</h3><p>대표, 공장장, 안전관리자, 노무 담당자</p></div>
-        <div class="card"><h3>트리거</h3><p>신규 외국인 투입, 산재 이슈, 원청/감사 요구, 교육 기록 정리</p></div>
+        <div class="card"><h3>트리거</h3><p>신규 외국인 투입, 산재 이슈, 원청/감사 요구</p></div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="kicker">Why We Can Start Small</div>
-      <h2>이 시장은 소프트웨어만으로 시작하지 않아도 됩니다.</h2>
-      <p class="lead">초기에는 “SOP 변환 + 교육 카드 제작 + 로그 관리”를 반수동으로 제공해도 고객 가치를 검증할 수 있습니다.</p>
-      <div class="grid">
-        <div class="card"><h3>컨시어지 MVP</h3><p>실제 작업지시서 3개를 받아 다국어 카드와 퀴즈로 제작. 현장 피드백으로 템플릿화.</p></div>
-        <div class="card"><h3>유료 파일럿</h3><p>사업장당 10만~30만원으로 시작. 돈을 내는지 먼저 확인하고 자동화 범위를 늘립니다.</p></div>
+    <section data-screen-label="09 Business model">
+      <div class="page-no">09</div>
+      <div class="kicker">Business model</div>
+      <h2>가격은 번역비가 아니라 교육 리스크 관리비입니다.</h2>
+      <div class="cards two">
+        <div class="card"><div class="metric">10–20만</div><h3>Starter / 월</h3><p>작업지시서 10개, 근로자 30명, 교육 로그 보관.</p></div>
+        <div class="card"><div class="metric">30–70만</div><h3>Site / 월</h3><p>다중 공정, 관리자 계정, 재교육 알림, 리포트.</p></div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="kicker">Business Model</div>
-      <h2>가격은 “번역비”가 아니라 교육 리스크 관리비로 책정합니다.</h2>
-      <div class="grid">
-        <div class="card"><h3>Starter</h3><p><strong>월 10만~20만원</strong><br/>작업지시서 10개, 근로자 30명, 교육 로그 보관</p></div>
-        <div class="card"><h3>Site</h3><p><strong>월 30만~70만원</strong><br/>여러 공정, 관리자 계정, 재교육 알림, 리포트</p></div>
-      </div>
-      <p class="small">초기에는 문서 세팅비를 별도 청구해 서비스 매출로 검증합니다.</p>
-    </section>
-
-    <section class="slide">
+    <section data-screen-label="10 Competition">
+      <div class="page-no">10</div>
       <div class="kicker">Competition</div>
-      <h2>큰 플랫폼과 정면승부하지 않습니다.</h2>
-      <div class="grid">
-        <div class="card"><h3>Squint 같은 엔터프라이즈 플랫폼</h3><p>강력하지만 대기업/복잡한 현장 운영 전체를 겨냥합니다. 도입 장벽과 세일즈 사이클이 큽니다.</p></div>
-        <div class="card"><h3>WorkProof의 틈</h3><p>소규모 사업장이 오늘 바로 쓰는 외국인 온보딩 증빙. QR, 모바일 카드, 퀴즈, 서명에 집중합니다.</p></div>
+      <h2>큰 플랫폼은 공장 전체를 바꿉니다. 우리는 첫날 교육 기록부터 바꿉니다.</h2>
+      <div class="matrix">
+        <div>
+          <h3>엔터프라이즈 현장 플랫폼</h3>
+          <p>강력하지만 도입이 크고, 대기업 운영 전체에 맞춰져 있습니다.</p>
+        </div>
+        <div>
+          <h3>WorkProof</h3>
+          <p>소규모 사업장이 오늘 바로 쓰는 QR 교육, 이해도 확인, 서명 로그.</p>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section data-screen-label="11 Validation" class="dark">
+      <div class="page-no">11</div>
       <div class="kicker">Validation</div>
-      <h2>다음 2주 목표는 “좋네요”가 아니라 돈입니다.</h2>
-      <div class="flow">
-        <div class="step"><div class="num">D1-D3</div><h3>15명 인터뷰</h3><p>공장장, 안전관리자, 노무사에게 현재 교육 기록 방식을 확인합니다.</p></div>
-        <div class="step"><div class="num">D4-D7</div><h3>샘플 제작</h3><p>실제 SOP 3개를 카드·퀴즈·서명 플로우로 바꿉니다.</p></div>
-        <div class="step"><div class="num">D8-D10</div><h3>현장 테스트</h3><p>외국인 근로자 5~10명이 직접 이해 가능한지 봅니다.</p></div>
-        <div class="step"><div class="num">D11-D14</div><h3>유료 전환</h3><p>3곳에서 유료 파일럿 또는 LOI를 받지 못하면 범위를 줄입니다.</p></div>
+      <h2>다음 2주 목표는 “좋네요”가 아닙니다. 돈입니다.</h2>
+      <div class="workflow" style="border-color:rgba(244,239,229,.55)">
+        <div class="workstep" style="border-color:rgba(244,239,229,.55)"><div class="n">D1–3</div><h3>15명 인터뷰</h3><p>현재 교육 기록과 사고 대응 방식을 확인.</p></div>
+        <div class="workstep" style="border-color:rgba(244,239,229,.55)"><div class="n">D4–7</div><h3>SOP 3개 제작</h3><p>실제 문서를 카드·퀴즈·서명 플로우로 변환.</p></div>
+        <div class="workstep" style="border-color:rgba(244,239,229,.55)"><div class="n">D8–10</div><h3>현장 테스트</h3><p>외국인 근로자 5–10명이 직접 사용.</p></div>
+        <div class="workstep" style="border-right:0"><div class="n">D11–14</div><h3>유료 파일럿</h3><p>3곳에서 LOI 또는 결제 의사를 확보.</p></div>
       </div>
     </section>
 
-    <section class="slide">
+    <section data-screen-label="12 Ask">
+      <div class="page-no">12</div>
+      <div class="tape two"></div>
       <div class="kicker">Ask</div>
-      <h2>지금 필요한 건 투자보다 현장입니다.</h2>
-      <div class="note">
-        <p class="quote">외국인 근로자를 고용한 제조·물류·조선 협력사 5곳을 만나고 싶습니다.</p>
-        <p>실제 SOP 샘플과 2주 파일럿 기회만 있으면, 이 문제가 돈을 내는 문제인지 빠르게 증명하겠습니다.</p>
-      </div>
+      <p class="ask">외국인 근로자를 고용한 제조·물류·조선 협력사 5곳을 만나고 싶습니다.</p>
+      <p class="lead">실제 SOP 샘플과 2주 파일럿 기회만 있으면, 이 문제가 돈을 내는 문제인지 빠르게 증명하겠습니다.</p>
+      <div class="stamp">WorkProof</div>
     </section>
 
-    <section class="slide">
+    <section data-screen-label="13 Sources">
+      <div class="page-no">13</div>
       <div class="kicker">Sources</div>
       <h2>근거 자료</h2>
-      <ul>
-        <li>고용노동부, “외국인 근로자도 안전수칙 한눈에 쏙!” <a href="https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=16711">moel.go.kr</a></li>
-        <li>KBS, “외국인 근로자 산업재해 예방 자료 배포…16개국 언어 번역” <a href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=7994297">kbs.co.kr</a></li>
-        <li>연합뉴스, “외국인 근로자 산재 10건 중 8건은 건설·제조업 분야서 발생” <a href="https://www.yna.co.kr/view/AKR20250714116700371">yna.co.kr</a></li>
-        <li>조선비즈, “외국인 근로자 잇단 사고… 의사소통 안돼 안전 교육 부실” <a href="https://biz.chosun.com/industry/company/2025/09/03/WHOG6C5ZCZC7FMP4TAK7IWVZEY/">biz.chosun.com</a></li>
-      </ul>
+      <div class="list" style="max-width:1450px">
+        <div><span class="dot">A</span><span>고용노동부, “외국인 근로자도 안전수칙 한눈에 쏙!”</span></div>
+        <div><span class="dot">B</span><span>KBS, “외국인 근로자 산업재해 예방 자료 배포…16개국 언어 번역”</span></div>
+        <div><span class="dot">C</span><span>연합뉴스, “외국인 근로자 산재 10건 중 8건은 건설·제조업 분야서 발생”</span></div>
+        <div><span class="dot">D</span><span>조선비즈, “외국인 근로자 잇단 사고… 의사소통 안돼 안전 교육 부실”</span></div>
+      </div>
     </section>
-  </main>
-
-  <div class="controls">← / → / Space</div>
-  <div class="footer"><span>WorkProof pitch deck</span><span id="counter"></span></div>
-  <div class="progress" id="progress"></div>
-
-  <script>
-    const slides = [...document.querySelectorAll('.slide')];
-    let i = 0;
-    function show(n) {
-      i = Math.max(0, Math.min(slides.length - 1, n));
-      slides.forEach((slide, idx) => slide.classList.toggle('active', idx === i));
-      document.getElementById('counter').textContent = `${i + 1} / ${slides.length}`;
-      document.getElementById('progress').style.width = `${((i + 1) / slides.length) * 100}%`;
-      history.replaceState(null, '', `#${i + 1}`);
-    }
-    document.addEventListener('keydown', (e) => {
-      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) show(i + 1);
-      if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
-      if (e.key === 'Home') show(0);
-      if (e.key === 'End') show(slides.length - 1);
-    });
-    const initial = parseInt(location.hash.replace('#', ''), 10);
-    show(Number.isFinite(initial) ? initial - 1 : 0);
-  </script>
+  </deck-stage>
 </body>
 </html>
